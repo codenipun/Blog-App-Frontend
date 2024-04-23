@@ -1,0 +1,46 @@
+.nav-bar{
+    margin: 10px 0px;
+    .container{
+        display: flex;
+        justify-content: space-between;
+        .logo{
+            img{
+                width: 120px;
+                cursor: pointer;
+            }
+            
+        }
+        .links{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .link{
+                text-decoration: none;
+                color: inherit;
+                h6{ 
+                    font-size: 15px;
+                    font-weight: 300;
+                }
+            }
+        }
+
+        .write{
+            width: 48px;
+            height: 48px;
+            background-color: #B9E7E7;
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.5s all;
+            border: 1px solid white;
+        }
+        .write:hover{
+            background-color: white;
+            color: teal;
+            transition: 0.5s all;
+            border: 1px solid rgb(118, 118, 118);
+        }
+    }
+}

@@ -8,11 +8,11 @@ import {
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Home from "./Pages/Home";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
+import Navbar from "./Components/Navbar/Navbar";
+import Footer from "./Components/Footer/Footer";
 import Single from "./Pages/Single";
 import Write from "./Pages/Write";
-
+import "./app.scss"
 
 const Layout = () =>{
   return(
@@ -55,8 +55,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div>
-      <RouterProvider router={router}/>
+    <div className="app">
+      <div className="container">
+        <RouterProvider router={router}/>
+      </div>
     </div>
   );
 }
