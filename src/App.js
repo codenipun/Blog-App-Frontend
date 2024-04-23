@@ -5,13 +5,13 @@ import {
   Router,
   RouterProvider,
 } from "react-router-dom";
-import Login from "./Pages/Login";
-import Register from "./Pages/Register";
-import Home from "./Pages/Home";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
+import Home from "./Pages/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
-import Single from "./Pages/Single";
-import Write from "./Pages/Write";
+import Single from "./Pages/Single/Single";
+import Write from "./Pages/Write/Write";
 import "./app.scss"
 
 const Layout = () =>{
