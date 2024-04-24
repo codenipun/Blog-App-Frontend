@@ -1,0 +1,56 @@
+.single{
+    display: flex;
+    gap: 50px;
+
+    .content{
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        img{
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .user{
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 14px;
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            .info{
+                span{
+                    font-weight: bold;
+                }
+            }
+
+            .edit{
+                display: flex;
+                gap: 5px;
+                img{
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                }
+            }
+        }
+        >h1{
+            font-size: 42px;
+            color: #333;
+            // text-align: justify;
+        }
+        >p{
+            text-align: justify;
+            line-height: 30px;
+        }
+    }
+    .menu{
+        flex: 2;
+    }
+}
