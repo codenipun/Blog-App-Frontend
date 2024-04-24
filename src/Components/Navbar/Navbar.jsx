@@ -7,9 +7,9 @@ const Navbar = () => {
   return (
     <div className='nav-bar'>
       <div className='container'>
-        <div className='logo'>
+        <Link className='logo'>
           <img src={Logo} alt=''></img>
-        </div>
+        </Link>
         <div className='links'>
           <Link className='link' to="/?cat=art">
             <h6>ART</h6>
@@ -31,7 +31,7 @@ const Navbar = () => {
           </Link>
           <span>John</span>
           <span>Logout</span>
-          <span className='write'>Write</span>
+          <Link to={'/write'} className='write'>Write</Link>
         </div>
       </div>
     </div>
