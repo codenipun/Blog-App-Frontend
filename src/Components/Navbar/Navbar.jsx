@@ -1,41 +1,62 @@
-import React from 'react'
-import "./navbar.scss"
-import Logo from "../../img/logo.png"
-import { Link } from 'react-router-dom'
+import React, { useContext } from "react";
+import "./navbar.scss";
+import Logo from "../../img/logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 const Navbar = () => {
+  const { logout, currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // await axios.post("/auth/login", inputs);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div className='nav-bar'>
-      <div className='container'>
-        <Link className='logo'>
-          <img src={Logo} alt=''></img>
+    <div className="nav-bar">
+      <div className="container">
+        <Link className="logo">
+          <img src={Logo} alt=""></img>
         </Link>
-        <div className='links'>
-          <Link className='link' to="/?cat=art">
+        <div className="links">
+          <Link className="link" to="/?cat=art">
             <h6>ART</h6>
           </Link>
-          <Link className='link' to="/?cat=science">
+          <Link className="link" to="/?cat=science">
             <h6>SCIENCE</h6>
           </Link>
-          <Link className='link' to="/?cat=technology">
+          <Link className="link" to="/?cat=technology">
             <h6>TECHNOLOGY</h6>
           </Link>
-          <Link className='link' to="/?cat=cinema">
+          <Link className="link" to="/?cat=cinema">
             <h6>CINEMA</h6>
           </Link>
-          <Link className='link' to="/?cat=design">
+          <Link className="link" to="/?cat=design">
             <h6>DESIGN</h6>
           </Link>
-          <Link className='link' to="/?cat=food">
+          <Link className="link" to="/?cat=food">
             <h6>FOOD</h6>
           </Link>
-          <span>John</span>
-          <span>Logout</span>
-          <Link to={'/write'} className='write'>Write</Link>
+          <span>{currentUser?.username}</span>
+          {currentUser ? (
+            <>
+              <span onClick={handleLogout}>Logout</span>
+              <Link to={"/write"} className="write">
+                Write
+              </Link>
+            </>
+          ) : (
+            <Link className="link" to="/login">Login</Link>
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
