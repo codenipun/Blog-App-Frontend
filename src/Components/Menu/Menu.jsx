@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./menu.scss";
 
 const posts = [
@@ -28,7 +28,20 @@ const posts = [
   },
 ];
 
-const Menu = () => {
+const Menu = ({cat, currPostId}) => {
+
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/posts/${postId}`);
+        setPost(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [])
   return (
     <div className="menu">
       <h1>Other posts you may like</h1>

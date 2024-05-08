@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <div className="nav-bar">
       <div className="container">
-        <Link className="logo">
+        <Link className="logo" to="/">
           <img src={Logo} alt=""></img>
         </Link>
         <div className="links">
@@ -45,7 +45,7 @@ const Navbar = () => {
           <span>{currentUser?.username}</span>
           {currentUser ? (
             <>
-              <span onClick={handleLogout}>Logout</span>
+              <span className="logout" onClick={handleLogout}>Logout</span>
               <Link to={"/write"} className="write">
                 Write
               </Link>
