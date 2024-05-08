@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./single.scss";
 import Edit from "../../img/edit.png";
 import Delete from "../../img/delete.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Menu from "../../Components/Menu/Menu";
 import axios from "axios";
 import moment from "moment";
@@ -17,6 +17,8 @@ const Single = () => {
 
   const { currentUser } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,6 +30,16 @@ const Single = () => {
     };
     fetchData();
   }, [postId]);
+
+  const handleDelete = async () => {
+    // we can put a confirm dialog here also
+    try {
+      await axios.delete(`/posts/${postId}`);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="single">
@@ -44,7 +56,7 @@ const Single = () => {
               <Link to={"/write?edit=2"}>
                 <img src={Edit} alt="" />
               </Link>
-              <img src={Delete} alt="" />
+              <img onClick={handleDelete} src={Delete} alt="" />
             </div>
           )}
         </div>
@@ -52,7 +64,7 @@ const Single = () => {
         {post.desc}
       </div>
       <div className="menu">
-        <Menu cat={post?.cat} currPostId = {postId}/>
+        <Menu cat={post?.cat} currPostId={postId} />
       </div>
     </div>
   );
