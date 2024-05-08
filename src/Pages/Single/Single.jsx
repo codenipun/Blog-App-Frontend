@@ -64,7 +64,7 @@ const Single = () => {
         {post.desc}
       </div>
       <div className="menu">
-        <Menu cat={post?.cat} currPostId={postId} />
+        <Menu cat={post?.cat} currPostId={Number(postId)} />
       </div>
     </div>
   );
