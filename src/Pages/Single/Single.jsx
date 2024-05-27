@@ -7,6 +7,7 @@ import Menu from "../../Components/Menu/Menu";
 import axios from "axios";
 import moment from "moment";
 import { AuthContext } from "../../context/authContext";
+import ReactQuill from "react-quill";
 
 const Single = () => {
   const [post, setPost] = useState([]);
@@ -53,7 +54,7 @@ const Single = () => {
           </div>
           {currentUser?.id === post.ownerId && (
             <div className="edit">
-              <Link to={"/write?edit=2"}>
+              <Link to={"/write?edit=2"} state={post}>
                 <img src={Edit} alt="" />
               </Link>
               <img onClick={handleDelete} src={Delete} alt="" />
@@ -61,7 +62,7 @@ const Single = () => {
           )}
         </div>
         <h1>{post.title}</h1>
-        {post.desc}
+        <ReactQuill value={post.desc} readOnly={true} theme="bubble"/>
       </div>
       <div className="menu">
         <Menu cat={post?.cat} currPostId={Number(postId)} />

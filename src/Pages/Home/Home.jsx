@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./home.scss";
 import axios from "axios";
+import ReactQuill from "react-quill";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -31,8 +32,8 @@ const Home = () => {
               <Link className="link" to={`/posts/${post.id}`}>
                 <h1>{post.title}</h1>
               </Link>
-              <p>{post.desc}</p>
-              <button>Read More</button>
+              <ReactQuill value={post.desc} readOnly={true} theme="bubble"/>
+              <button><Link className="link" to={`/posts/${post.id}`}>Read More</Link></button>
             </div>
           </div>
         ))}

@@ -18,9 +18,6 @@ const Menu = ({cat, currPostId}) => {
     fetchData();
   }, [cat]);
 
-  console.log(posts)
-  console.log(currPostId)
-
   return (
     <div className="menu">
       <h1>Other posts you may like</h1>
