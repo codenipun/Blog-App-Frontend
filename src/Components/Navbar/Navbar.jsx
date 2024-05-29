@@ -113,7 +113,8 @@ const Navbar = () => {
             }}
             menu={menuProps}
           >
-            <Button>
+            <Button style={{display:'flex', justifyContent:'center', alignItems
+            :'center'}}>
               <UserOutlined />
             </Button>
           </Dropdown>}
