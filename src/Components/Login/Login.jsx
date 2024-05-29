@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-
-import "./login.scss"
+import "./login.scss";
+import { message } from "antd";
 
 const Login = () => {
   const [inputs, setInputs] = useState({
@@ -36,6 +36,7 @@ const Login = () => {
       // await axios.post("/auth/login", inputs);
       navigate("/");
     } catch (error) {
+      message.error(error.response.data);
       setErr(error.response.data);
     }
   };
@@ -44,6 +45,7 @@ const Login = () => {
       <form>
         <div class="form-floating mb-3">
           <input
+            required
             type="text"
             class="form-control"
             id="floatingInput"
@@ -55,6 +57,7 @@ const Login = () => {
         </div>
         <div class="form-floating">
           <input
+            required
             type="password"
             class="form-control"
             id="floatingPassword"
@@ -64,8 +67,9 @@ const Login = () => {
           />
           <label for="floatingPassword">Password</label>
         </div>
-        <button className="btn btn-primary mt-3 w-100" onClick={handleSubmit}>Login</button>
-        {err && <p className="mt-3" style={{color:'red'}}>{err}</p>}
+        <button className="btn btn-primary mt-3 w-100" onClick={handleSubmit}>
+          Login
+        </button>
       </form>
     </div>
   );
