@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Login from "./Pages/Login/Login";
-import Register from "./Pages/Register/Register";
+import Register from "./Components/Register/Register";
 import Home from "./Pages/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";

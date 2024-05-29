@@ -1,57 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/authContext";
+import React from "react";
+import { Tabs } from "antd";
+import RegisterComponent from "../../Components/Register/Register.jsx";
+import LoginComponent from "../../Components/Login/Login.jsx";
+import "./login.scss";
+import LoginPlaceholder from "../../img/5500661.jpg"
+const onChange = (key) => {
+  console.log(key);
+};
 
+const items = [
+  {
+    key: "1",
+    label: "Login",
+    children: <LoginComponent />,
+  },
+  {
+    key: "2",
+    label: "Register",
+    children: <RegisterComponent />,
+  },
+];
 const Login = () => {
-  const [inputs, setInputs] = useState({
-    username: "",
-    password: "",
-  });
-
-  const [err, setErr] = useState();
-
-  const navigate = useNavigate();
-
-  const {login, currentUser} = useContext(AuthContext);
-
-  console.log(currentUser);
-
-  const handleChange = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  useEffect(()=>{
-    if(currentUser){
-      navigate("/");
-    }
-  })
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await login(inputs)
-      // await axios.post("/auth/login", inputs);
-      navigate("/");
-    } catch (error) {
-      setErr(error.response.data);
-    }
-  };
   return (
-    <div className="auth">
-      <h1>Login</h1>
-      <form>
-        <input type="text" placeholder="Username" name="username" onChange={handleChange} />
-        <input type="password" placeholder="Password" name="password" onChange={handleChange} />
-        <button onClick={handleSubmit}>Login</button>
-        {err && <p>{err}</p>}
-        <span>
-          Don't you have an account? <Link to="/register">Register</Link>
-        </span>
-      </form>
+    <div className="login">
+    <img className="loginimg" src={LoginPlaceholder} alt=""/>
+      <div>
+        <h1>Welcome Back!</h1>
+        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+      </div>
     </div>
   );
 };
 
 export default Login;
-
