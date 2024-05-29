@@ -31,13 +31,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await login(inputs);
-      // await axios.post("/auth/login", inputs);
-      navigate("/");
-    } catch (error) {
-      message.error(error.response.data);
-      setErr(error.response.data);
+    if (inputs.username === "") {
+      message.warning("Username/Email is required!");
+    } else if (inputs.email === "") {
+      message.warning("Email is required!");
+    } else if (inputs.password === "") {
+      message.warning("Password cannot be empty!");
+    } else {
+      try {
+        await login(inputs);
+        // await axios.post("/auth/login", inputs);
+        navigate("/");
+      } catch (error) {
+        message.error(error.response.data);
+        setErr(error.response.data);
+      }
     }
   };
   return (
