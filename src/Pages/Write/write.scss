@@ -36,26 +36,12 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        gap: 10px;
+        // justify-content: space-between;
 
         >.buttons{
             display: flex;
             justify-content: space-between;
-
-            :first-child{
-                cursor: pointer;
-                color: teal;
-                border: 1ps solid teal;
-                padding: 3px 5px;
-            }
-
-            :last-child{
-                cursor: pointer;
-                color: white;
-                background-color: teal;
-                border: 1px solid teal;
-                padding: 3px 5px;
-            }
         }
 
         .cat{
@@ -66,9 +52,17 @@
         }
 
         >.upload{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+            padding: 5px;
+            border-radius: 5px;
+            text-decoration: none;
             cursor: pointer;
             color: blue;
-            text-decoration: underline;
+            border: 1px solid rgb(206, 206, 206);
         }
     }
   }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import { Button, Checkbox, Select, Upload, message } from "antd";
+import { CloudUploadOutlined, UploadOutlined } from "@ant-design/icons";
 import "./write.scss";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,10 +18,9 @@ const Write = () => {
 
   // console.log(desc, title, file, cat);
   const upload = async () => {
-  
-  // Use this sample image or upload your own via the Media Explorer
-  try {
-    const formData = new FormData();
+    // Use this sample image or upload your own via the Media Explorer
+    try {
+      const formData = new FormData();
       formData.append("file", file);
       const res = await axios.post("/upload", formData);
       return res.data;
@@ -29,26 +29,42 @@ const Write = () => {
     }
   };
   const handleSubmit = async (e) => {
-    const imgUrl = await upload();
-    try {
-      state
-        ? await axios.post(`/posts/${state.postId}`, {
-            title,
-            desc: desc,
-            cat,
-            img: file ? imgUrl : "",
-          })
-        : await axios.post(`/posts`, {
-            title,
-            desc: desc,
-            img: imgUrl,
-            date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-            cat,
-          });
-      navigate("/");
-    } catch (error) {
-      console.log(error);
+    let imgUrl;
+    if (file) {
+      imgUrl = await upload();
     }
+    if (title === "") {
+      message.warning("Please enter title");
+    }else if(desc === ""){
+      message.warning("Please enter Description");
+    } else if(cat === ""){
+      message.warning("Please Select Category");
+    } else if(file === null){
+      message.warning("Please Select Image");
+    } else {
+      try {
+        state
+          ? await axios.post(`/posts/${state.postId}`, {
+              title,
+              desc: desc,
+              cat,
+              img: file ? imgUrl : "",
+            })
+          : await axios.post(`/posts`, {
+              title,
+              desc: desc,
+              img: imgUrl,
+              date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+              cat,
+            });
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  const handleVisibility = (value: string) => {
+    console.log(`selected ${value}`);
   };
   return (
     <div className="write">
@@ -70,12 +86,88 @@ const Write = () => {
       </div>
       <div className="menu">
         <div className="item">
+          <h1>Category</h1>
+          <div className="cat">
+            <Checkbox
+              checked={cat === "ART"}
+              name="cat"
+              value="ART"
+              id="art"
+              onChange={(e) => setCat(e.target.value)}
+            >
+              Art
+            </Checkbox>
+          </div>
+          <div className="cat">
+            <Checkbox
+              checked={cat === "DESIGN"}
+              name="cat"
+              value="DESIGN"
+              id="design"
+              onChange={(e) => setCat(e.target.value)}
+            >
+              Design
+            </Checkbox>
+          </div>
+          <div className="cat">
+            <Checkbox
+              name="cat"
+              checked={cat === "TECHNOLOGY"}
+              value="TECHNOLOGY"
+              id="technology"
+              onChange={(e) => setCat(e.target.value)}
+            >
+              Technology
+            </Checkbox>
+          </div>
+          <div className="cat">
+            <Checkbox
+              checked={cat === "SCIENCE"}
+              name="cat"
+              value="SCIENCE"
+              id="science"
+              onChange={(e) => setCat(e.target.value)}
+            >
+              Science
+            </Checkbox>
+          </div>
+          <div className="cat">
+            <Checkbox
+              colorPrimary="#b9e7e7"
+              checked={cat === "CINEMA"}
+              name="cat"
+              value="CINEMA"
+              id="cinema"
+              onChange={(e) => setCat(e.target.value)}
+            >
+              Cinema
+            </Checkbox>
+          </div>
+          <div className="cat">
+            <Checkbox
+              checked={cat === "FOOD"}
+              name="cat"
+              value="FOOD"
+              id="food"
+              onChange={(e) => setCat(e.target.value)}
+            >
+              Food
+            </Checkbox>
+          </div>
+        </div>
+        <div className="item">
           <h1>Publish</h1>
           <span>
-            <b>Status: </b> Draft
-          </span>
-          <span>
-            <b>Visibility: </b> Public
+            <b>Visibility: </b>
+            <Select
+              defaultValue="public"
+              style={{ width: 120 }}
+              onChange={handleVisibility}
+              options={[
+                { value: "public", label: "Public" },
+                { value: "private", label: "Private" },
+              ]}
+            />
           </span>
           <input
             style={{ display: "none" }}
@@ -85,81 +177,15 @@ const Write = () => {
             onChange={(e) => setFile(e.target.files[0])}
           />
           <label className="upload" htmlFor="file">
-            Upload Image
+            <CloudUploadOutlined /> Upload Image
           </label>
           {file?.name}
           <div className="buttons">
-            <button>Save As Draft</button>
-            <button onClick={handleSubmit}>Publish</button>
-          </div>
-        </div>
-        <div className="item">
-          <h1>Category</h1>
-          <div className="cat">
-            <input
-              type="radio"
-              checked={cat === "ART"}
-              name="cat"
-              value="ART"
-              id="art"
-              onChange={(e) => setCat(e.target.value)}
-            />
-            <label htmlFor="art">Art</label>
-          </div>
-          <div className="cat">
-            <input
-              type="radio"
-              checked={cat === "DESIGN"}
-              name="cat"
-              value="DESIGN"
-              id="design"
-              onChange={(e) => setCat(e.target.value)}
-            />
-            <label htmlFor="design">Design</label>
-          </div>
-          <div className="cat">
-            <input
-              type="radio"
-              name="cat"
-              checked={cat === "TECHNOLOGY"}
-              value="TECHNOLOGY"
-              id="technology"
-              onChange={(e) => setCat(e.target.value)}
-            />
-            <label htmlFor="technology">Technology</label>
-          </div>
-          <div className="cat">
-            <input
-              type="radio"
-              checked={cat === "SCIENCE"}
-              name="cat"
-              value="SCIENCE"
-              id="science"
-              onChange={(e) => setCat(e.target.value)}
-            />
-            <label htmlFor="science">Science</label>
-          </div>
-          <div className="cat">
-            <input
-              type="radio"
-              checked={cat === "CINEMA"}
-              name="cat"
-              value="CINEMA"
-              id="cinema"
-              onChange={(e) => setCat(e.target.value)}
-            />
-            <label htmlFor="cinema">Cinema</label>
-          </div>
-          <div className="cat">
-            <input
-              type="radio"
-              checked={cat === "FOOD"}
-              name="cat"
-              value="FOOD"
-              id="food"
-              onChange={(e) => setCat(e.target.value)}
-            />
-            <label htmlFor="food">Food</label>
+            <Button>Save as Draft</Button>
+            <Button type="primary" onClick={handleSubmit}>
+              <UploadOutlined />
+              Publish
+            </Button>
           </div>
         </div>
       </div>
