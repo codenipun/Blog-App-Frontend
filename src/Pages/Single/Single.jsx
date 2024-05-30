@@ -8,6 +8,7 @@ import axios from "axios";
 import moment from "moment";
 import { AuthContext } from "../../context/authContext";
 import ReactQuill from "react-quill";
+import { Popconfirm } from "antd";
 
 const Single = () => {
   const [post, setPost] = useState([]);
@@ -33,7 +34,6 @@ const Single = () => {
   }, [postId]);
 
   const handleDelete = async () => {
-    // we can put a confirm dialog here also
     try {
       await axios.delete(`/posts/${postId}`);
       navigate("/");
@@ -41,6 +41,11 @@ const Single = () => {
       console.log(error);
     }
   };
+
+  const confirm = (e) => {
+    handleDelete();
+  };
+
 
   return (
     <div className="single">
@@ -57,12 +62,20 @@ const Single = () => {
               <Link to={"/write?edit=2"} state={post}>
                 <img src={Edit} alt="" />
               </Link>
-              <img onClick={handleDelete} src={Delete} alt="" />
+              <Popconfirm
+                title="Delete the Post"
+                description="Are you sure to delete this Post?"
+                onConfirm={confirm}
+                okText="Yes"
+                cancelText="No"
+              >
+                <img src={Delete} alt="" />
+              </Popconfirm>
             </div>
           )}
         </div>
         <h1>{post.title}</h1>
-        <ReactQuill value={post.desc} readOnly={true} theme="bubble"/>
+        <ReactQuill value={post.desc} readOnly={true} theme="bubble" />
       </div>
       <div className="menu">
         <Menu cat={post?.cat} currPostId={Number(postId)} />
