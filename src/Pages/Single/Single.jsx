@@ -12,6 +12,8 @@ import { Popconfirm } from "antd";
 
 const Single = () => {
   const [post, setPost] = useState([]);
+  const [cat, setCat] = useState([]);
+  const [totalPost, setTotalPost] = useState([]);
 
   const location = useLocation();
 
@@ -26,12 +28,16 @@ const Single = () => {
       try {
         const res = await axios.get(`/posts/${postId}`);
         setPost(res.data);
+        setCat(res.data.cat);
+        const totalPost = await axios.get(`/posts/?cat=${cat}`);
+        console.log(totalPost.data);
+        setTotalPost(totalPost.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [postId]);
+  }, [postId, cat]);
 
   const handleDelete = async () => {
     try {
@@ -45,7 +51,6 @@ const Single = () => {
   const confirm = (e) => {
     handleDelete();
   };
-
 
   return (
     <div className="single">
@@ -77,9 +82,11 @@ const Single = () => {
         <h1>{post.title}</h1>
         <ReactQuill value={post.desc} readOnly={true} theme="bubble" />
       </div>
-      <div className="menu">
-        <Menu cat={post?.cat} currPostId={Number(postId)} />
-      </div>
+      {totalPost.length > 1 ? (
+        <div className="menu">
+          <Menu cat={post?.cat} currPostId={Number(postId)} />
+        </div>
+      ) : null}
     </div>
   );
 };
