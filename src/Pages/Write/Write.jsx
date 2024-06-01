@@ -71,18 +71,18 @@ const Write = () => {
       <div className="content">
         <input
           type="text"
-          placeholder="title"
+          placeholder="Enter title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <div className="editorContainer">
           <ReactQuill
             className="editor"
             theme="snow"
             value={desc}
+            // formats={['lineBreak']}
             onChange={setDesc}
+            placeholder="Write your thoughts..."
           />
-        </div>
       </div>
       <div className="menu">
         <div className="item">

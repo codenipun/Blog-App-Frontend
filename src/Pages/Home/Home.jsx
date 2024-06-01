@@ -30,9 +30,9 @@ const Home = () => {
             </div>
             <div className="content">
               <Link className="link" to={`/posts/${post.id}`}>
-                <h1>{post.title}</h1>
+                <h2>{post.title}</h2>
               </Link>
-              <ReactQuill value={post.desc} readOnly={true} theme="bubble"/>
+              <ReactQuill className="quill-desc" value={post.desc} readOnly={true} theme="bubble"/>
               <button><Link className="link" to={`/posts/${post.id}`}>Read More</Link></button>
             </div>
           </div>
