@@ -9,11 +9,13 @@ import moment from "moment";
 import { AuthContext } from "../../context/authContext";
 import ReactQuill from "react-quill";
 import { Popconfirm } from "antd";
+import Loader from '../../Components/Loader/Loader.jsx'
 
 const Single = () => {
   const [post, setPost] = useState([]);
   const [cat, setCat] = useState([]);
   const [totalPost, setTotalPost] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const location = useLocation();
 
@@ -25,6 +27,7 @@ const Single = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`/posts/${postId}`);
         setPost(res.data);
@@ -35,6 +38,7 @@ const Single = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetchData();
   }, [postId, cat]);
@@ -53,7 +57,7 @@ const Single = () => {
   };
 
   return (
-    <div className="single">
+    loading? <Loader length={'50vh'}/> :<div className="single">
       <div className="content">
         <img src={post.postImg} alt=""></img>
         <div className="user">

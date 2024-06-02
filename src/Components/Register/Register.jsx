@@ -1,93 +1,79 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { message } from "antd";
+import { Button, Form, Input, message } from "antd";
+import Loader from "../Loader/Loader";
 
 const Register = () => {
-  const [inputs, setInputs] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
   const [err, setErr] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (inputs.username === "") {
-      message.warning("Username is required!");
-    } else if (inputs.email === "") {
-      message.warning("Email is required!");
-    } else if(!validateEmail(inputs.email)){
-      message.warning("Please enter correct email")
-    } else if (inputs.password === "") {
-      message.warning("Password cannot be empty!");
-    } else {
-      try {
-        await axios.post("/auth/register", inputs);
-        // navigate("/login");
-        message.success("Registration Successfull");
-      } catch (error) {
-        setErr(error.response.data);
-        message.error(error.response.data);
-      }
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      await axios.post("/auth/register", values);
+      window.location.reload();
+      message.success("Registration Successfull");
+    } catch (error) {
+      setErr(error.response.data);
+      message.error(error.response.data);
     }
+    setLoading(false);
   };
-  return (
-    <div className="auth">
-      <form>
-        <div class="form-floating mb-3">
-          <input
-            required
-            type="text"
-            class="form-control"
-            id="floatingInput"
-            placeholder="Username"
-            name="username"
-            onChange={handleChange}
-          />
-          <label for="floatingInput">Username</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            required
-            type="email"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Email"
-            name="email"
-            onChange={handleChange}
-          />
-          <label for="floatingPassword">Email</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            required
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-          />
-          <label for="floatingPassword">Password</label>
-        </div>
-        <button className="btn btn-primary w-100" onClick={handleSubmit}>
-          Register
-        </button>
-      </form>
-    </div>
+  return loading ? (
+    <Loader length={"40vh"} />
+  ) : (
+    <Form
+      name="normal_login"
+      className="login-form"
+      layout="vertical"
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+    >
+      <Form.Item
+        label="Username"
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Username!",
+          },
+        ]}
+      >
+        <Input placeholder="Username" />
+      </Form.Item>
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[
+          {
+            required: true,
+            type: "email",
+            message: "Please enter a valid Email!",
+          },
+        ]}
+      >
+        <Input placeholder="Email" />
+      </Form.Item>
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Password!",
+          },
+        ]}
+      >
+        <Input.Password placeholder="Password" />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="login-form-button">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

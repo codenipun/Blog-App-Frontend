@@ -1,26 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import "./login.scss";
-import { message } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import Loader from "../Loader/Loader";
 
 const Login = () => {
-  const [inputs, setInputs] = useState({
-    username: "",
-    password: "",
-  });
-
   const [err, setErr] = useState();
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const { login, currentUser } = useContext(AuthContext);
-
-  console.log(currentUser);
-
-  const handleChange = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
   useEffect(() => {
     if (currentUser) {
@@ -28,58 +20,69 @@ const Login = () => {
     }
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (inputs.username === "") {
-      message.warning("Username/Email is required!");
-    } else if (inputs.email === "") {
-      message.warning("Email is required!");
-    } else if (inputs.password === "") {
-      message.warning("Password cannot be empty!");
-    } else {
-      try {
-        await login(inputs);
-        // await axios.post("/auth/login", inputs);
-        navigate("/");
-      } catch (error) {
-        message.error(error.response.data);
-        setErr(error.response.data);
-      }
+  const onFinish = async (values) => {
+    setLoading(true)
+    try {
+      await login(values);
+      navigate("/");
+    } catch (error) {
+      message.error(error.response.data);
+      setErr(error.response.data);
     }
+    setLoading(false)
   };
-  return (
-    <div className="auth">
-      <form>
-        <div class="form-floating mb-3">
-          <input
-            required
-            type="text"
-            class="form-control"
-            id="floatingInput"
-            placeholder="Username"
-            name="username"
-            onChange={handleChange}
-          />
-          <label for="floatingInput">Email / Username</label>
-        </div>
-        <div class="form-floating">
-          <input
-            required
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-          />
-          <label for="floatingPassword">Password</label>
-        </div>
-        <button className="btn btn-primary mt-3 w-100" onClick={handleSubmit}>
-          Login
-        </button>
-      </form>
-    </div>
+  return loading ? (
+    <Loader length={"50vh"} />
+  ) : (
+    <Form
+      name="normal_login"
+      className="login-form"
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+    >
+      <Form.Item
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Username!",
+          },
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
+        />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Password!",
+          },
+        ]}
+      >
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="login-form-button">
+          Log in
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

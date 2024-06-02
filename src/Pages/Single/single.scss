@@ -17,6 +17,7 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            // justify-content: center;
             font-size: 14px;
             img{
                 width: 50px;
@@ -25,8 +26,19 @@
                 object-fit: cover;
             }
             .info{
+                // display: flex;
+                // flex-direction: column;
+                // height: 100%;
+                // background-color: red;
+                // align-items: center;
+                // justify-content: center;
+
                 span{
                     font-weight: bold;
+                }
+                p{
+                    font-weight: 300;
+                    color: rgb(94, 94, 94);
                 }
             }
 

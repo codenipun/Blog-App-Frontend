@@ -7,6 +7,7 @@ import "./write.scss";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
+import Loader from "../../Components/Loader/Loader";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Write = () => {
   const [title, setTitle] = useState(state?.title || "");
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
+  const [loading, setLoading] = useState(false);
 
   // console.log(desc, title, file, cat);
   const upload = async () => {
@@ -29,6 +31,7 @@ const Write = () => {
     }
   };
   const handleSubmit = async (e) => {
+    // setLoading(true)
     let imgUrl;
     if (file) {
       imgUrl = await upload();
@@ -42,6 +45,7 @@ const Write = () => {
     } else if(file === null){
       message.warning("Please Select Image");
     } else {
+      setLoading(true)
       try {
         state
           ? await axios.post(`/posts/${state.postId}`, {
@@ -61,13 +65,14 @@ const Write = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     }
   };
-  const handleVisibility = (value: string) => {
+  const handleVisibility = (value) => {
     console.log(`selected ${value}`);
   };
   return (
-    <div className="write">
+    loading? <Loader length={'50vh'}/> :<div className="write">
       <div className="content">
         <input
           type="text"
