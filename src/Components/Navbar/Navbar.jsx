@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import "./navbar.scss";
-import Logo from "../../img/logo.png";
+import Logo from "../../img/BlogSpot1.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import editSCG from "../../img/edit.svg";

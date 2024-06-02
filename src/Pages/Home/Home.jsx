@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./home.scss";
 import axios from "axios";
@@ -9,6 +9,23 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const cat = useLocation().search;
   const [loading, setLoading] = useState(false);
+
+  const quillRef = useRef(null);
+
+  const handleConvertToPlainText = (quillData) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = quillData;
+    const fullText = tempElement.textContent || tempElement.innerText || '';
+
+    const lines = fullText.split('\n').filter(line => line.trim() !== '');
+    let truncatedText = lines.slice(0, 4).join('\n');
+    if (lines.length > 4) {
+      truncatedText += '...';
+    }
+
+    // setPlainText(truncatedText);
+    return truncatedText;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,8 +53,7 @@ const Home = () => {
               <Link className="link" to={`/posts/${post.id}`}>
                 <h2>{post.title}</h2>
               </Link>
-              <ReactQuill className="quill-desc" value={post.desc} readOnly={true} theme="bubble"/>
-              <button><Link className="link" to={`/posts/${post.id}`}>Read More</Link></button>
+              <p>{handleConvertToPlainText(post.desc)}</p>
             </div>
           </div>
         )) : <div className="emptyContainer">No Related Posts!!</div>}
