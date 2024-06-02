@@ -2,15 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./home.scss";
 import axios from "axios";
-import ReactQuill from "react-quill";
 import Loader from "../../Components/Loader/Loader";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const cat = useLocation().search;
   const [loading, setLoading] = useState(false);
-
-  const quillRef = useRef(null);
 
   const handleConvertToPlainText = (quillData) => {
     const tempElement = document.createElement('div');
@@ -22,8 +19,6 @@ const Home = () => {
     if (lines.length > 4) {
       truncatedText += '...';
     }
-
-    // setPlainText(truncatedText);
     return truncatedText;
   };
 
@@ -44,7 +39,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="posts">
-        {loading ? <Loader length={'50vh'}/> : posts.length!==0 ? posts.map((post) => (
+        {loading ? <Loader length={'50vh'}/> : posts?.length!==0 ? posts?.map((post) => (
           <div className="post" key={post.id}>
             <div className="img">
               <img src={post.img} alt="" />
