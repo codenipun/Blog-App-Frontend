@@ -24,7 +24,7 @@ const Write = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await axios.post("/upload", formData);
+      const res = await axios.post(`${process.env.REACT_APP_HOSTED_SERVER}/upload`, formData);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -48,13 +48,13 @@ const Write = () => {
       setLoading(true)
       try {
         state
-          ? await axios.post(`/posts/${state.postId}`, {
+          ? await axios.post(`${process.env.REACT_APP_HOSTED_SERVER}/posts/${state.postId}`, {
               title,
               desc: desc,
               cat,
               img: file ? imgUrl : "",
             })
-          : await axios.post(`/posts`, {
+          : await axios.post(`${process.env.REACT_APP_HOSTED_SERVER}/posts`, {
               title,
               desc: desc,
               img: imgUrl,

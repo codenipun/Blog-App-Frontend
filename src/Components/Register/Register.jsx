@@ -10,7 +10,7 @@ const Register = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      await axios.post("/auth/register", values);
+      await axios.post(`${process.env.REACT_APP_HOSTED_SERVER}/auth/register`, values);
       window.location.reload();
       message.success("Registration Successfull");
     } catch (error) {

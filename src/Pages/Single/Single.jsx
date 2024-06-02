@@ -29,10 +29,10 @@ const Single = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/posts/${postId}`);
+        const res = await axios.get(`${process.env.REACT_APP_HOSTED_SERVER}/posts/${postId}`);
         setPost(res.data);
         setCat(res.data.cat);
-        const totalPost = await axios.get(`/posts/?cat=${cat}`);
+        const totalPost = await axios.get(`${process.env.REACT_APP_HOSTED_SERVER}/posts/?cat=${cat}`);
         console.log(totalPost.data);
         setTotalPost(totalPost.data);
       } catch (error) {
@@ -45,7 +45,7 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${postId}`);
+      await axios.delete(`${process.env.REACT_APP_HOSTED_SERVER}/posts/${postId}`);
       navigate("/");
     } catch (error) {
       console.log(error);

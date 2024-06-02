@@ -22,11 +22,12 @@ const Home = () => {
     return truncatedText;
   };
 
+  console.log(process.env.REACT_APP_HOSTED_SERVER);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const res = await axios.get(`/posts${cat}`);
+        const res = await axios.get(`${process.env.REACT_APP_HOSTED_SERVER}/posts${cat}`);
         setPosts(res.data);
       } catch (error) {
         console.log(error);
