@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Button, Checkbox, Select, Upload, message } from "antd";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import Loader from "../../Components/Loader/Loader";
+import { AuthContext } from "../../context/authContext";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const Write = () => {
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
   const [loading, setLoading] = useState(false);
+
+  const { currentUser } = useContext(AuthContext);
 
   // console.log(desc, title, file, cat);
   const upload = async () => {
@@ -53,6 +56,7 @@ const Write = () => {
               desc: desc,
               cat,
               img: file ? imgUrl : "",
+              user_id : currentUser?.id
             })
           : await axios.post(`${process.env.REACT_APP_HOSTED_SERVER}/posts`, {
               title,
@@ -60,6 +64,7 @@ const Write = () => {
               img: imgUrl,
               date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
               cat,
+              user_id : currentUser?.id
             });
         navigate("/");
       } catch (error) {
