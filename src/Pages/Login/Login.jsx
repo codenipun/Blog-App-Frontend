@@ -25,7 +25,7 @@ const Login = () => {
   return (
     <div className="login">
     <img className="loginimg" src={LoginPlaceholder} alt=""/>
-      <div>
+      <div style={{minHeight:"450px"}}>
         <h1>Welcome Back!</h1>
         <Tabs activeKey={activeKey} items={items} onChange={onChange} />
       </div>
