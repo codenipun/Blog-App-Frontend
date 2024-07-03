@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Form, Input, message } from "antd";
 import Loader from "../Loader/Loader";
 
-const Register = () => {
+const Register = ({setActiveKey}) => {
   const [err, setErr] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -11,8 +11,9 @@ const Register = () => {
     setLoading(true);
     try {
       await axios.post(`${process.env.REACT_APP_HOSTED_SERVER}/auth/register`, values);
-      window.location.reload();
-      message.success("Registration Successfull");
+      // window.location.reload();
+      setActiveKey("1");
+      message.success("Registration Successfull, Please Login");
     } catch (error) {
       setErr(error.response.data);
       message.error(error.response.data);
